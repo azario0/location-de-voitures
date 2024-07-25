@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Available Cars</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for car in cars %}
+    <div class="bg-white p-4 rounded shadow">
+        <h3 class="text-xl font-semibold">{{ car.mark }}</h3>
+        <p>Color: {{ car.color }}</p>
+        <p>Class: {{ car.class_type }}</p>
+        <p>Category: {{ car.category }}</p>
+        <p>Status: {% if car.is_available %}Available{% else %}Rented{% endif %}</p>
+        <a href="{{ url_for('car_detail', car_id=car.id) }}" class="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded">View Details</a>
+    </div>
+    {% endfor %}
+</div>
+<a href="{{ url_for('add_car') }}" class="mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded">Add New Car</a>
+{% endblock %}

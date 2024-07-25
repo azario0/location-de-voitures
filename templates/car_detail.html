@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Car Details</h2>
+<div class="bg-white p-4 rounded shadow">
+    <h3 class="text-xl font-semibold">{{ car.mark }}</h3>
+    <p>Color: {{ car.color }}</p>
+    <p>Class: {{ car.class_type }}</p>
+    <p>Category: {{ car.category }}</p>
+    <p>Current Status: {% if car.is_available %}Available{% else %}Rented{% endif %}</p>
+</div>
+
+<h3 class="text-xl font-bold mt-8 mb-4">Allocation History</h3>
+
+{% macro render_allocations(allocations, title) %}
+    <h4 class="text-lg font-semibold mt-4 mb-2">{{ title }}</h4>
+    {% if allocations %}
+        <table class="w-full bg-white rounded shadow">
+            <thead>
+                <tr>
+                    <th class="p-2 text-left">Start Date</th>
+                    <th class="p-2 text-left">End Date</th>
+                    <th class="p-2 text-left">Client Name</th>
+                    <th class="p-2 text-left">Client Email</th>
+                    <th class="p-2 text-left">Client Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for allocation in allocations %}
+                <tr>
+                    <td class="p-2">{{ allocation.start_date }}</td>
+                    <td class="p-2">{{ allocation.end_date }}</td>
+                    <td class="p-2">{{ allocation.client_name }}</td>
+                    <td class="p-2">{{ allocation.client_email }}</td>
+                    <td class="p-2">{{ allocation.client_phone }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No {{ title.lower() }} reservations.</p>
+    {% endif %}
+{% endmacro %}
+
+{{ render_allocations(current_allocations, "Current") }}
+{{ render_allocations(future_allocations, "Future") }}
+{{ render_allocations(past_allocations, "Past") }}
+
+<h3 class="text-xl font-bold mt-8 mb-4">Make Reservation</h3>
+<form action="{{ url_for('allocate_car', car_id=car.id) }}" method="POST" class="bg-white p-4 rounded shadow">
+    <div class="mb-4">
+        <label for="start_date" class="block mb-2">Start Date</label>
+        <input type="date" name="start_date" id="start_date" required class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label for="end_date" class="block mb-2">End Date</label>
+        <input type="date" name="end_date" id="end_date" required class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label for="client_name" class="block mb-2">Client Name</label>
+        <input type="text" name="client_name" id="client_name" required class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label for="client_email" class="block mb-2">Client Email</label>
+        <input type="email" name="client_email" id="client_email" required class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label for="client_phone" class="block mb-2">Client Phone</label>
+        <input type="tel" name="client_phone" id="client_phone" required class="w-full p-2 border rounded">
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Make Reservation</button>
+</form>
+
+<a href="{{ url_for('dashboard') }}" class="mt-4 inline-block bg-gray-500 text-white px-4 py-2 rounded">Back to Dashboard</a>
+{% endblock %}

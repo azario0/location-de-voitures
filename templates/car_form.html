@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Add New Car</h2>
+<form action="{{ url_for('add_car') }}" method="POST" class="bg-white p-4 rounded shadow">
+    <div class="mb-4">
+        <label for="mark" class="block mb-2">Mark</label>
+        <input type="text" name="mark" id="mark" required class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label for="color" class="block mb-2">Color</label>
+        <input type="text" name="color" id="color" required class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label for="class_type" class="block mb-2">Class</label>
+        <input type="text" name="class_type" id="class_type" required class="w-full p-2 border rounded">
+    </div>
+    <div class="mb-4">
+        <label for="category" class="block mb-2">Category</label>
+        <select name="category" id="category" required class="w-full p-2 border rounded">
+            <option value="car">Car</option>
+            <option value="moto">Motorcycle</option>
+            <option value="cycle">Bicycle</option>
+            <option value="bike">Bike</option>
+        </select>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Car</button>
+</form>
+<a href="{{ url_for('dashboard') }}" class="mt-4 inline-block bg-gray-500 text-white px-4 py-2 rounded">Back to Dashboard</a>
+{% endblock %}
